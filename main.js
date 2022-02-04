@@ -112,26 +112,58 @@ const icons = [
 		color: 'blue'
 	}
 ];
+//FUNZIONI
+function drawIcons(container, icons){
+    let content = '';
 
+    icons.forEach(item => {
+        content += `
+                    <div class="icon">
+                        <div class="item flex-center">
+                            <i style= "color:${item.color};" class="${item.family}  ${item.prefix}${item.name}"></i>
+                            <div class="item-text">
+                                <span>${item.name}</span>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+    });
+
+
+    container.innerHTML = content;
+
+}
 //Costanti
 
 const container = document.getElementById('icons-container');
+const selector = document.getElementById('type-filter');
 
+drawIcons(container, icons);
+//ascoltatore di eventi
+selector.addEventListener('change', function () {
+    
+    let selection = this.value;
 
-let content = '';
+    //if per far si che quando il filtro è su all compaiano tutti
+    if(selection == ""){
 
-icons.forEach(item => {
-    content += `
-                <div class="icon">
-                    <div class="item flex-center">
-                        <i style= "color:${item.color};" class="${item.family}  ${item.prefix}${item.name}"></i>
-                        <div class="item-text">
-                            <span>${item.name}</span>
-                        </div>
-                    </div>
-                </div>
-                `;
+        drawIcons(container, icons);
+
+    }else{
+        //filtro che fa comparire solo le icone del tipo giusto
+        const filtered = icons.filter(icon => {
+            if(icon.type == selection){
+                return true;
+            }
+            return false;
+        });
+
+        drawIcons(container, filtered);
+    
+    }
+    
 });
 
 
-container.innerHTML = content;
+
+
