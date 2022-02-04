@@ -153,6 +153,11 @@ function makeColor(length) {
 const container = document.getElementById('icons-container');
 const selector = document.getElementById('type-filter');
 
+//colori delle icon resi dinamici
+icons.forEach(element => element.color = makeColor(6));
+
+console.log(icons);
+
 drawIcons(container, icons);
 //ascoltatore di eventi
 selector.addEventListener('change', function () {
