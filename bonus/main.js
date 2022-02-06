@@ -113,6 +113,7 @@ const icons = [
 	}
 ];
 //FUNZIONI
+//funzione per inserire le icon
 function drawIcons(container, icons){
     let content = '';
 
@@ -129,16 +130,31 @@ function drawIcons(container, icons){
                     `;
     });
 
+    container.innerHTML = content;
+}
+//funzione per inserire i dati all'interno del type-filter
+
+function drawFilter(container, array){
+    let content = '';
+
+    array.forEach(item => {
+        content += `
+					<option value="${item}">${item}</option>
+                    `;
+    });
 
     container.innerHTML = content;
-
 }
+
 //funzione che crea un colore in esadecimale
 function makeColor(length) {
+
 	//inizializzo la variabile di uscita con il cancelletto
 	let result = '#';
+
 	//creo una stringa dei valori accettati 
 	let characters = 'abcdef0123456789';
+
 	//creo un ciclo
 	for ( let i = 0; i < length; i++ ) {
 		//utilizzo la funzione charAt che restituisce un carattere da una stringa dalla posizione indicata dall'indice
@@ -146,29 +162,42 @@ function makeColor(length) {
 	   result += characters.charAt(Math.floor(Math.random() * characters.length));
 	}
 	return result;
- }
- console.log(makeColor(6));
-//Costanti
+}
 
+//Costanti
 const container = document.getElementById('icons-container');
 const selector = document.getElementById('type-filter');
 
 //colori delle icon resi dinamici
 icons.forEach(element => element.color = makeColor(6));
 
-console.log(icons);
+//selettore per tipo inserimento valori dinamici
 
+//creo un array con all'interno tutti i type delle icons
+const typeIcons = [];
+
+icons.forEach(element => typeIcons.push(element.type));
+
+//con Set elimino i duplicati nell'Array
+const filteredTypeIcons = [...new Set(typeIcons)];
+
+//ho utilizzato splice per aggiungere all'array alla posizione 0 la voce "All"
+filteredTypeIcons.splice(0,0,"All");
+
+//richiamo la funzione per inserire le voci all'interno del filtro per tipo
+drawFilter(selector,filteredTypeIcons);
+
+//richiamo la funzione per inserire le icon all'interno dell'html
 drawIcons(container, icons);
-//ascoltatore di eventi
+
+//ascoltatore di eventi sul filtro per tipo
 selector.addEventListener('change', function () {
     
     let selection = this.value;
 
     //if per far si che quando il filtro è su all compaiano tutti
-    if(selection == ""){
-
+    if(selection == "All"){
         drawIcons(container, icons);
-
     }else{
         //filtro che fa comparire solo le icone del tipo giusto
         const filtered = icons.filter(icon => {
@@ -177,13 +206,7 @@ selector.addEventListener('change', function () {
             }
             return false;
         });
-
         drawIcons(container, filtered);
-    
     }
     
 });
-
-
-
-
