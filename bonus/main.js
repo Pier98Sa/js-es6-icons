@@ -174,15 +174,12 @@ icons.forEach(element => element.color = makeColor(6));
 //selettore per tipo inserimento valori dinamici
 
 //creo un array con all'interno tutti i type delle icons
-const typeIcons = [];
+const typeIcons = ["All"];
 
 icons.forEach(element => typeIcons.push(element.type));
 
 //con Set elimino i duplicati nell'Array
 const filteredTypeIcons = [...new Set(typeIcons)];
-
-//ho utilizzato splice per aggiungere all'array alla posizione 0 la voce "All"
-filteredTypeIcons.splice(0,0,"All");
 
 //richiamo la funzione per inserire le voci all'interno del filtro per tipo
 drawFilter(selector,filteredTypeIcons);
@@ -200,12 +197,7 @@ selector.addEventListener('change', function () {
         drawIcons(container, icons);
     }else{
         //filtro che fa comparire solo le icone del tipo giusto
-        const filtered = icons.filter(icon => {
-            if(icon.type == selection){
-                return true;
-            }
-            return false;
-        });
+        const filtered = icons.filter(icon => (icon.type == selection));
         drawIcons(container, filtered);
     }
     

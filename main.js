@@ -151,15 +151,8 @@ selector.addEventListener('change', function () {
 
     }else{
         //filtro che fa comparire solo le icone del tipo giusto
-        const filtered = icons.filter(icon => {
-            if(icon.type == selection){
-                return true;
-            }
-            return false;
-        });
-
+        const filtered = icons.filter(icon => (icon.type == selection));
         drawIcons(container, filtered);
-    
     }
     
 });
